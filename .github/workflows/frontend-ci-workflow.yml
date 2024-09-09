@@ -7,7 +7,7 @@ on:
       - main
 
 env:
-  NODE-VERSION: 18
+  NODE-VERSION: 16
   
 jobs:
   lint:
