@@ -15,7 +15,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
 
-    Steps:
+    steps:
       - name: checkout code
         uses: actions/checkout@v3
 
@@ -33,7 +33,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    Steps:
+    steps:
       - name: checkout code
         uses: actions/checkout@v3
 
@@ -63,7 +63,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [lint, test]
 
-    Steps:
+    steps:
       - name: checkout code
         uses: actions/checkout@v3
 
