@@ -21,6 +21,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{env.PYTHON-VERSION}}
+          cache: 'pip'
+      - name: Install pipenv
+        run: pip install pipenv
       - name: Install dependencies
         run: |
           cd starter/backend
