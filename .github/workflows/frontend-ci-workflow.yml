@@ -8,6 +8,7 @@ on:
 
 env:
   NODE-VERSION: 18.14
+  REACT_APP_MOVIE_API_URL: 'http://localhost:5000'
   
 jobs:
   lint:
@@ -68,3 +69,10 @@ jobs:
         run: |
           cd starter/frontend
           npm ci
+      - name: Run tests 
+        run: |
+          cd starter/frontend
+          npm test --passWithNoTests
+        continue-on-error: true          
+      - name: Build Docker Image
+        run: docker build --build-arg=REACT_APP_MOVIE_API_URL=${{REACT_APP_MOVIE_API_URL}} --tag=ap-frontend:latest .
