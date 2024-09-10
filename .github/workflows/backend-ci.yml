@@ -27,10 +27,11 @@ jobs:
         run: |
           cd starter/backend
           pipenv install --system --deploy
-      - name: Run lint
-        run: |
-          cd starter/backend
           pipenv run lint
+#      - name: Run lint
+#        run: |
+#          cd starter/backend
+#          pipenv run lint
         #continue-on-error: true        
 
   test:
