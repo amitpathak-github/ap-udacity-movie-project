@@ -75,4 +75,4 @@ jobs:
           npm test --passWithNoTests
         continue-on-error: true          
       - name: Build Docker Image
-        run: docker build --build-arg=REACT_APP_MOVIE_API_URL=${{REACT_APP_MOVIE_API_URL}} --tag=ap-frontend:latest .
+        run: docker build --build-arg=REACT_APP_MOVIE_API_URL=${{env.REACT_APP_MOVIE_API_URL}} --tag=ap-frontend:latest .
