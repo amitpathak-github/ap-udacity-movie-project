@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - .github/workflows/
+      - .github/workflows
 
 env:
   PYTHON-VERSION: "3.10"
