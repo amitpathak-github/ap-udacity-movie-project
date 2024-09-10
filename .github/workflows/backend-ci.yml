@@ -9,7 +9,7 @@ on:
       - starter/backend
 
 env:
-  PYTHON-VERSION: 3.10.0
+  PYTHON-VERSION: 3.10
   
 jobs:
   lint:
