@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - .github/workflows
+      - '.github/workflows/**'
 
 env:
   PYTHON-VERSION: "3.10"
@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd starter/backend
-          pipenv install --system --deploy
+          pipenv install --dev
           pipenv run lint
 #      - name: Run lint
 #        run: |
@@ -47,10 +47,11 @@ jobs:
         run: |
           cd starter/backend
           pipenv install
-      - name: Run tests 
-        run: |
-          cd starter/backend
           pipenv run test
+#      - name: Run tests 
+#        run: |
+#          cd starter/backend
+#          pipenv run test
         #continue-on-error: true
         
   dev-notes:
