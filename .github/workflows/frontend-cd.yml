@@ -83,3 +83,4 @@ jobs:
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 416216733404.dkr.ecr.us-east-1.amazonaws.com
           docker build --build-arg=REACT_APP_MOVIE_API_URL=${{env.REACT_APP_MOVIE_API_URL}} --tag=ap-udacity-mp-frontend:latest .
           docker tag ap-udacity-mp-frontend:latest 416216733404.dkr.ecr.us-east-1.amazonaws.com/ap-udacity-mp-frontend:latest
+          docker push 416216733404.dkr.ecr.us-east-1.amazonaws.com/ap-udacity-mp-frontend:latest
