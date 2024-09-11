@@ -77,11 +77,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{secrets.AWS_SESSION_TOKEN}}
           aws-region: us-east-1      
-        uses: 
       - name: Build and push Docker Image to AWS ECR
         run: |
           cd starter/frontend
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 416216733404.dkr.ecr.us-east-1.amazonaws.com
           docker build --build-arg=REACT_APP_MOVIE_API_URL=${{env.REACT_APP_MOVIE_API_URL}} --tag=ap-udacity-mp-frontend:latest .
           docker tag ap-udacity-mp-frontend:latest 416216733404.dkr.ecr.us-east-1.amazonaws.com/ap-udacity-mp-frontend:latest
-          
