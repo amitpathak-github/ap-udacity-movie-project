@@ -10,6 +10,7 @@ on:
 
 env:
   PYTHON-VERSION: "3.10"
+  BACKEND_ECR: 416216733404.dkr.ecr.us-east-1.amazonaws.com
   
 jobs:
   lint:
@@ -87,10 +88,10 @@ jobs:
       - name: Build and push Docker Image to AWS ECR
         run: |
           cd starter/backend
-          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 416216733404.dkr.ecr.us-east-1.amazonaws.com
-          docker build --tag=ap-udacity-mp-backend:latest .
-          docker tag ap-udacity-mp-backend:latest 416216733404.dkr.ecr.us-east-1.amazonaws.com/ap-udacity-mp-backend:latest
-          docker push 416216733404.dkr.ecr.us-east-1.amazonaws.com/ap-udacity-mp-backend:latest        
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ env.BACKEND_ECR }}
+          docker build --tag=backend:latest .
+          docker tag backend:latest ${{ env.BACKEND_ECR }}/backend:latest
+          docker push ${{ env.BACKEND_ECR }}/backend:latest        
 
   Deploy:
     runs-on: ubuntu-latest
@@ -108,6 +109,6 @@ jobs:
       - name: Deploy to K8 cluster
         run: |
           cd starter/backend/k8s
-          aws eks update-kubeconfig --region us-east-1 --name ap-udacity-mp-cluster
-          kustomize edit set image backend=416216733404.dkr.ecr.us-east-1.amazonaws.com/ap-udacity-mp-backend:latest
+          aws eks update-kubeconfig --region us-east-1 --name cluster
+          kustomize edit set image backend=${{ env.BACKEND_ECR }}/backend:latest
           kustomize build | kubectl apply -f -          

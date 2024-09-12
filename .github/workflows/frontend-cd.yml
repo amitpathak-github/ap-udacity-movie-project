@@ -11,6 +11,7 @@ on:
 env:
   NODE-VERSION: 18.14
   REACT_APP_MOVIE_API_URL: "http://localhost:5000"
+  FRONTEND_ECR: 416216733404.dkr.ecr.us-east-1.amazonaws.com
   
 jobs:
   lint:
@@ -80,10 +81,10 @@ jobs:
       - name: Build and push Docker Image to AWS ECR
         run: |
           cd starter/frontend
-          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 416216733404.dkr.ecr.us-east-1.amazonaws.com
-          docker build --build-arg=REACT_APP_MOVIE_API_URL=${{env.REACT_APP_MOVIE_API_URL}} --tag=ap-udacity-mp-frontend:latest .
-          docker tag ap-udacity-mp-frontend:latest 416216733404.dkr.ecr.us-east-1.amazonaws.com/ap-udacity-mp-frontend:latest
-          docker push 416216733404.dkr.ecr.us-east-1.amazonaws.com/ap-udacity-mp-frontend:latest
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ env.FRONTEND_ECR }}
+          docker build --build-arg=REACT_APP_MOVIE_API_URL=${{env.REACT_APP_MOVIE_API_URL}} --tag=frontend:latest .
+          docker tag frontend:latest ${{ env.FRONTEND_ECR }}/frontend:latest
+          docker push ${{ env.FRONTEND_ECR }}/frontend:latest
       
   Deploy:
     runs-on: ubuntu-latest
@@ -101,6 +102,6 @@ jobs:
       - name: Deploy to K8 cluster
         run: |
           cd starter/frontend/k8s
-          aws eks update-kubeconfig --region us-east-1 --name ap-udacity-mp-cluster
-          kustomize edit set image frontend=416216733404.dkr.ecr.us-east-1.amazonaws.com/ap-udacity-mp-frontend:latest
+          aws eks update-kubeconfig --region us-east-1 --name cluster
+          kustomize edit set image frontend=${{ env.FRONTEND_ECR }}/frontend:latest
           kustomize build | kubectl apply -f -
