@@ -11,6 +11,7 @@ on:
 env:
   PYTHON-VERSION: "3.10"
   BACKEND_ECR: 416216733404.dkr.ecr.us-east-1.amazonaws.com
+  github_action_user_arn: arn:aws:iam::416216733404:user/github-action-user
   
 jobs:
   lint:
@@ -81,10 +82,12 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{secrets.AWS_SESSION_TOKEN}}
-          aws-region: us-east-1      
+          role-to-assume: ${{ github_action_user_arn }}
+          role-session-name: apGithubSession 
+#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#          aws-session-token: ${{secrets.AWS_SESSION_TOKEN}}
+          aws-region: us-east-1     
       - name: Build and push Docker Image to AWS ECR
         run: |
           cd starter/backend
@@ -102,8 +105,10 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: ${{ github_action_user_arn }}
+          role-session-name: apGithubSession         
+#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 #          aws-session-token: ${{secrets.AWS_SESSION_TOKEN}}
           aws-region: us-east-1          
       - name: Deploy to K8 cluster
