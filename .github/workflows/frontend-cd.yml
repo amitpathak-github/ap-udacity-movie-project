@@ -10,7 +10,7 @@ on:
 
 env:
   NODE-VERSION: 18.14
-  REACT_APP_MOVIE_API_URL: "http://ad6da4fc575b44236917ce9ac9f3de8f-975363336.us-east-1.elb.amazonaws.com"
+  REACT_APP_MOVIE_API_URL: "http://a1361868f38ad432bb1145f4a2a1af64-1964681352.us-east-1.elb.amazonaws.com"
   FRONTEND_ECR: 416216733404.dkr.ecr.us-east-1.amazonaws.com
   
 jobs:
