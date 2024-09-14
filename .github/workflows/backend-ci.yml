@@ -2,11 +2,12 @@ name: Backend Continuous Integration
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - 'starter/backend/**'
+  pull_request:
+#  push:
+#    branches:
+#      - main
+#    paths:
+#      - 'starter/backend/**'
 
 env:
   PYTHON-VERSION: "3.10"
@@ -27,12 +28,10 @@ jobs:
         run: |
           cd starter/backend
           pipenv install --dev
-#          pipenv run lint
       - name: Run lint
         run: |
           cd starter/backend
           pipenv run lint
-        #continue-on-error: true        
 
   test:
     runs-on: ubuntu-latest
@@ -49,18 +48,18 @@ jobs:
         run: |
           cd starter/backend
           pipenv install
-#          pipenv run test
       - name: Run tests 
         run: |
           cd starter/backend
           pipenv run test
-        #continue-on-error: true
         
   dev-notes:
     runs-on: ubuntu-latest
     steps:
       - name: Display message
-        run: echo "These are the Development notes"
+        run: |
+          echo "These are the Development notes"
+          cat README.md
 
   build:
     runs-on: ubuntu-latest
@@ -81,9 +80,8 @@ jobs:
       - name: Run tests 
         run: |
           cd starter/backend
-          pipenv run test
-        #continue-on-error: true          
+          pipenv run test        
       - name: Build Docker Image
         run: |
           cd starter/backend
-          docker build --tag ap-backend:latest .
+          docker build --tag backend:latest .
